@@ -1,0 +1,258 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+<script>
+	const backendUrl = @Json.Serialize(@Configuration.GetSection("Domain").GetSection("Backend").Value);
+</script>
+<link href="./css/Procedure/Procedure.css">
+
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN NODES -->
+		<div class="portlet light">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="icon-bar-chart font-green-haze"></i>
+					<span class="caption-subject bold uppercase font-green-haze">Quy trình</span>
+				</div>
+				<div class="tools">
+					<a href="javascript:;" class="fullscreen">
+					</a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="allSampleContent" class="p-4 w-full">
+					<div id="sample">
+						<div data-bind="with: $root.selectedProduce" class="portlet-body form"
+							style="position: absolute; width: 18%; z-index: 10; background-color: #fff;">
+							<form role="form">
+								<div class="form-body">
+									<div class="form-group form-md-line-input">
+										<input data-bind="value: name" type="text" class="form-control"
+											id="name-procedure" style="margin: 10px 0;">
+										<label for="form_control_1" style="font-size: 16px;">Tên quy trình</label>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- BEGIN NODE-->
+						<div class="col-md-6" id="node-detail" style="width: 0;">
+							<div class="portlet light menu-node">
+								<div class="portlet-title">
+									<span id="close-detail" class="toggle-button" data-bind="click: $root.hideDetail">
+										<i class="fa fa-close"></i>
+									</span>
+									<div class="caption font-purple-plum">
+										<i class="icon-speech font-purple-plum"></i>
+										<span class="caption-subject bold uppercase"> Demo 1</span>
+									</div>
+								</div>
+								<div class="portlet-body">
+									<div class="portlet-body form">
+										<form role="form" data-bind="with: $root.nodeDetail">
+											<div class="form-body">
+												<div class="form-group form-md-line-input">
+													<input data-bind="value: text" type="text" class="form-control" id="form_control_1" placeholder="Enter your name">
+													<label for="form_control_1">Text</label>
+												</div>
+												<div class="form-group form-md-line-input">
+													<input data-bind="value: key" type="text" class="form-control" id="form_control_1" placeholder="Enter your email">
+													<label for="form_control_1">Key</label>
+												</div>
+												<div class="form-group form-md-line-input">
+													<input data-bind="value: loc" type="text" class="form-control" id="form_control_1" placeholder="Success state">
+													<label for="form_control_1">Loc</label>
+												</div>
+												<div class="form-group form-md-line-input has-error">
+													<input data-bind="value: __gohashid" type="text" class="form-control" id="form_control_1" placeholder="Error state">
+													<label for="form_control_1">Gohashid</label>
+												</div>
+												<div class="form-group form-md-line-input">
+													<div class="col-12">
+														<label for="form_control_1" style="color: #333;">State</label>
+													</div>
+													<div class="col-12" data-bind="foreach: state">
+
+													</div>
+													<button data-bind="click: $root.modalState" type="button" class="btn btn-info">Thêm State</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="portlet-body">
+									<button data-bind="click: $root.editNode" class="btn green" type="button">Chỉnh sửa</button>
+								</div>
+							</div>
+							<!-- END NODES-->
+						</div>
+
+						<!-- BEGIN LINK -->
+						<div class="col-md-6" id="link-detail" style="width: 0;">
+							<div class="portlet light menu-node">
+								<div class="portlet-title">
+									<span id="close-detail" class="toggle-button"  data-bind="click: $root.hideDetail">
+										<i class="fa fa-close"></i>
+									</span>
+									<div class="caption font-purple-plum">
+										<i class="icon-speech font-purple-plum"></i>
+										<span class="caption-subject bold uppercase"> Demo 1</span>
+										<span class="caption-helper">right click inside the box</span>
+									</div>
+								</div>
+								<div class="portlet-body">
+									<div class="portlet-body form">
+										<form role="form" data-bind="with: $root.linkDetail">
+											<div class="form-body">
+												<div class="form-group form-md-line-input" style="display: flex;">
+													<div>
+														<input data-bind="value: from" type="text" class="form-control" id="form_control_1" placeholder="Enter your name">
+														<label for="form_control_1">From</label>
+													</div>
+													<div>
+														<input data-bind="value: to" type="text" class="form-control" id="form_control_1" placeholder="Enter your email">
+														<label style="margin-left: 150px;" for="form_control_1">To</label>
+													</div>
+												</div>
+												<div class="form-group form-md-line-input has-error">
+													<input data-bind="value: __gohashid" type="text" class="form-control" id="form_control_1" placeholder="Error state">
+													<label for="form_control_1">Gohashid</label>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END LINK -->
+						<div id="myDiagramDiv"
+							style="width: 100%; height: 460px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: auto;">
+							<canvas tabindex="0" width="1317" height="572"
+								style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1054px; height: 458px; cursor: auto;">This
+								text is displayed if your browser does not support the Canvas HTML element.</canvas>
+							<div style="position: absolute; overflow: auto; width: 1054px; height: 458px; z-index: 1;">
+								<div style="position: absolute; width: 1px; height: 1px;"></div>
+							</div>
+						</div>
+						<div>
+							<div class="clearfix" style="margin-bottom: 10px;">
+								<div class="btn-group">
+									<button style="border-bottom-left-radius: 25px !important; border-top-left-radius: 25px !important;" data-bind="click: $root.createProduce" type="button" class="btn blue"><i class="fa fa-copy"></i> Lưu </button>
+									<button data-bind="click: $root.saveProduce" type="button" class="btn purple"><i class="fa fa-cogs"></i> Chỉnh sửa </button>
+									<button data-bind="click: $root.loadProduce" type="button" class="btn green"><i class="fa fa-undo"></i> Tải lại </button>
+									<button data-bind="click: $root.deleteProcedure" style="border-bottom-right-radius: 25px !important; border-top-right-radius: 25px !important;" type="button" class="btn red" data-toggle="dropdown"><i class="fa fa-close"></i> Xóa </button>
+								</div>
+							</div>
+							<div data-bind="with: $root.selectedProduce">
+								<textarea data-bind="value: data" id="mySavedModel" style="width:100%;height:300px">
+								</textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END CHART PORTLET-->
+	</div>
+</div>
+
+<div id="modal-state" style="padding: 0 10px !important;" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="width: 55%;margin-top:30px !important">
+        <div class="modal-content">
+            <div class="modal-header" style="display:flex; justify-content:space-between">
+                <h4 class="modal-title">
+                    State
+                </h4>
+            </div>
+            <div class="modal-body " style="padding-bottom:20px">
+				<div class="row">
+					<div class="col-12">
+						<div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+							<div class="tab-content">
+								<div class="portlet-body form">
+									<!-- BEGIN FORM-->
+									<form action="#" class="form-horizontal" data-bind="with: $root.selectedState">
+										<div class="form-body">
+											<div class="form-group">
+												<label class="col-md-3 control-label">Check</label>
+												<div class="col-md-4">
+													<input data-bind="value: Check" type="text" class="form-control input-circle">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">Color</label>
+												<div class="col-md-4">
+													<input data-bind="value: Color" type="text" class="form-control input-circle" placeholder="Enter text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">Description</label>
+												<div class="col-md-4">
+													<input data-bind="value: Description" type="text" class="form-control input-circle" placeholder="Enter text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">Name</label>
+												<div class="col-md-4">
+													<input data-bind="value: Name" type="text" class="form-control input-circle" placeholder="Enter text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">Order</label>
+												<div class="col-md-4">
+													<select class="form-control">
+														<option>---Chọn giá trị---</option>
+														<option value="1">1</option>
+														<option value="1">2</option>
+														<option value="1">3</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">PublishState</label>
+												<div class="col-md-4">
+													<select class="form-control">
+														<option>---Chọn giá trị---</option>
+														<option value="true">true</option>
+														<option value="false">false</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-md-3 control-label">StartState</label>
+												<div class="col-md-4">
+													<select class="form-control">
+														<option>---Chọn giá trị---</option>
+														<option value="true">true</option>
+														<option value="false">false</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</form>
+									<!-- END FORM-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer" style="display:flex; justify-content:flex-end; margin-top:10px">
+				<button data-bind="click: $root.createState" type="submit" class="btn btn-blue">Thêm</button>
+				<button type="button" data-dismiss="modal" class="btn default">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+<script src="~/lib/gojs/go.js"></script>
+<script src="~/js/Procedure/Procedure.js"></script>
+}
